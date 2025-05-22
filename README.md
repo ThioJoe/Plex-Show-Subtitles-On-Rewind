@@ -1,5 +1,7 @@
 # Thio's Rewind Subtitle Displayer For Plex
 
+## ⚠️ WARNING: Plex recently released major new updates for the various Plex player apps which COMPLETELY breaks this tool, and apparently results in broken playback / pauses / media restarts when certain API requests are made to devices. Don't try to use this app with the new app versions. I'll try to see if I can fix it, but it seems like they might have removed support for the "Remote API" this app heavily relied on. ⚠️
+
 ## What it Does
 
 If you rewind a show or movie by a short amount (like pressing the back button on a remote), this tool will automatically tell Plex to **turn on subtitles** temporarily on that device. 
