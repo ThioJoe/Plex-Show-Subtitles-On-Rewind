@@ -248,7 +248,7 @@ internal static partial class Logging
         catch (Exception ex)
         {
             // Handle other exceptions if needed
-            PrintLogItem($"Failed to add log message to queue: {ex.Message}", LogLevel.Error, Red, Red);
+            PrintLogItem($"[Func Log] Failed to add log message to queue: {ex.Message}", LogLevel.Error, Red, Red);
         }
     }
 
@@ -358,7 +358,7 @@ internal static partial class Logging
         }
     }
 
-    public static void WriteLineSafe(string? message = null)
+    public static void WriteLineSafe(string? message = "")
     {
         try
         {
@@ -370,7 +370,7 @@ internal static partial class Logging
         }
         catch (Exception ex)
         {
-            PrintLogItem($"Failed to add log message to queue: {ex.Message}", LogLevel.Error, Red, Red);
+            PrintLogItem($"[Func WriteLineSafe] Failed to add log message to queue: {ex.Message}", LogLevel.Error, Red, Red);
         }
 
     }
@@ -387,7 +387,7 @@ internal static partial class Logging
         }
         catch (Exception ex)
         {
-            PrintLogItem($"Failed to add log message to queue: {ex.Message}", LogLevel.Error, Red, Red);
+            PrintLogItem($"[Func Writesafe] Failed to add log message to queue: {ex.Message}", LogLevel.Error, Red, Red);
         }
 
     }

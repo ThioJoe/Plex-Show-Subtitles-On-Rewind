@@ -12,7 +12,7 @@ namespace RewindSubtitleDisplayerForPlex
     // PlexServer class which contains many methods to interact with the Plex server
     public static class PlexServer
     {
-        private static string _url = string.Empty;
+        private static string _serverUrl = string.Empty;
         private static string _token = string.Empty;
         private static string _appClientID = string.Empty;
         private static HttpClient _httpClient = new HttpClient();
@@ -26,7 +26,7 @@ namespace RewindSubtitleDisplayerForPlex
                 { "X-Plex-Client-Identifier", appClientID }
             };
 
-            _url = url;
+            _serverUrl = url;
             _token = token;
             _appClientID = appClientID;
 
@@ -126,7 +126,7 @@ namespace RewindSubtitleDisplayerForPlex
             try
             {
                 string responseString;
-                HttpResponseMessage response = await httpClientToUse.GetAsync($"{_url}/status/sessions");
+                HttpResponseMessage response = await httpClientToUse.GetAsync($"{_serverUrl}/status/sessions");
                 responseString = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
@@ -173,7 +173,7 @@ namespace RewindSubtitleDisplayerForPlex
         {
             try
             {
-                string testUrl = $"{_url}/";
+                string testUrl = $"{_serverUrl}/";
                 HttpResponseMessage response = await _httpClient.GetAsync(testUrl);
 
                 if (response.IsSuccessStatusCode)
@@ -297,7 +297,7 @@ namespace RewindSubtitleDisplayerForPlex
             try
             {
                 // Get the raw XML response string from the server
-                string response = await _httpClient.GetStringAsync($"{_url}{key}");
+                string response = await _httpClient.GetStringAsync($"{_serverUrl}{key}");
 
                 // Use the new parser to deserialize the XML into a PlexMediaItem
                 // The parser handles the different root nodes (Video, Track, Episode) internally
@@ -536,24 +536,27 @@ namespace RewindSubtitleDisplayerForPlex
             string mainUrlBase;
             string? retryUrlBase;
 
+            //DEBUG:
+            //sendDirectToDevice = false; //DEBUG override
+
             if (sendDirectToDevice == true)
             {
                 if (activeSession != null && activeSession.Session != null)
                 {
                     mainUrlBase = activeSession.Session.Player.DirectUrlPath;
-                    retryUrlBase = _url; // Fallback to the main URL if sending directly fails
+                    retryUrlBase = _serverUrl; // Fallback to the main URL if sending directly fails
                 }
                 else
                 {
                     // If no active session, we can't send directly
                     LogWarning("No active session found to send command directly.");
-                    mainUrlBase = _url;
+                    mainUrlBase = _serverUrl;
                     retryUrlBase = null;
                 }
             }
             else
             {
-                mainUrlBase = _url;
+                mainUrlBase = _serverUrl;
 
                 if (activeSession != null && activeSession.Session != null)
                 {
